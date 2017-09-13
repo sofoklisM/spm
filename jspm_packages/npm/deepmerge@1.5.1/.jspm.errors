@@ -1,0 +1,27 @@
+MultipleErrors: C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:1:1: Unexpected reserved word import
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:1:8: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:1:16: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:1:21: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:2:1: Unexpected reserved word import
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:2:8: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:2:17: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:2:22: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:6:1: Unexpected reserved word export
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:6:8: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:6:8: Unexpected reserved word default
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:6:16: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:8:12: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:8:12: Unexpected token :
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:8:14: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:9:9: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:9:9: Unexpected token :
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:13:9: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:13:9: Unexpected token :
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:17:2: Unexpected token ]
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:18:1: Unexpected token }
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/rollup.config.js:19:1: Unexpected token End of File
+
+MultipleErrors: C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/dist/es.js:85:1: Unexpected reserved word export
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/dist/es.js:85:8: Semi-colon expected
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/dist/es.js:85:8: Unexpected reserved word default
+C:/Users/smalakel/AppData/Local/.jspm/packages/npm/deepmerge@1.5.1/dist/es.js:85:16: Semi-colon expected

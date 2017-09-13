@@ -1,0 +1,1 @@
+module.exports = require("npm:deepmerge@1.5.1/dist/cjs.js");

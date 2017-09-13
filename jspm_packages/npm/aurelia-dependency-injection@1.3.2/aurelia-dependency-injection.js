@@ -14,7 +14,7 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
   exports.factory = factory;
   exports.newInstance = newInstance;
   exports.invoker = invoker;
-  exports.factory = factory;
+  exports.invokeAsFactory = invokeAsFactory;
   exports.registration = registration;
   exports.transient = transient;
   exports.singleton = singleton;
@@ -290,7 +290,7 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
     };
   }
 
-  function factory(potentialTarget) {
+  function invokeAsFactory(potentialTarget) {
     var deco = function deco(target) {
       _aureliaMetadata.metadata.define(_aureliaMetadata.metadata.invoker, FactoryInvoker.instance, target);
     };
@@ -358,7 +358,8 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
     }
 
     TransientRegistration.prototype.registerResolver = function registerResolver(container, key, fn) {
-      return container.registerTransient(this._key || key, fn);
+      var existingResolver = container.getResolver(this._key || key);
+      return existingResolver === undefined ? container.registerTransient(this._key || key, fn) : existingResolver;
     };
 
     return TransientRegistration;
@@ -379,7 +380,9 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
     }
 
     SingletonRegistration.prototype.registerResolver = function registerResolver(container, key, fn) {
-      return this._registerInChild ? container.registerSingleton(this._key || key, fn) : container.root.registerSingleton(this._key || key, fn);
+      var targetContainer = this._registerInChild ? container : container.root;
+      var existingResolver = targetContainer.getResolver(this._key || key);
+      return existingResolver === undefined ? targetContainer.registerSingleton(this._key || key, fn) : existingResolver;
     };
 
     return SingletonRegistration;
@@ -416,9 +419,16 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
   function invokeWithDynamicDependencies(container, fn, staticDependencies, dynamicDependencies) {
     var i = staticDependencies.length;
     var args = new Array(i);
+    var lookup = void 0;
 
     while (i--) {
-      args[i] = container.get(staticDependencies[i]);
+      lookup = staticDependencies[i];
+
+      if (lookup === null || lookup === undefined) {
+        throw new Error('Constructor Parameter with index ' + i + ' cannot be null or undefined. Are you trying to inject/register something that doesn\'t exist with DI?');
+      } else {
+        args[i] = container.get(lookup);
+      }
     }
 
     if (dynamicDependencies !== undefined) {
@@ -579,6 +589,10 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
       return this._resolvers.has(key) || checkParent && this.parent !== null && this.parent.hasResolver(key, checkParent);
     };
 
+    Container.prototype.getResolver = function getResolver(key) {
+      return this._resolvers.get(key);
+    };
+
     Container.prototype.get = function get(key) {
       validateKey(key);
 
@@ -597,7 +611,13 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
           return this.autoRegister(key).get(this, key);
         }
 
-        return this.parent._get(key);
+        var _registration2 = _aureliaMetadata.metadata.get(_aureliaMetadata.metadata.registration, key);
+
+        if (_registration2 === undefined) {
+          return this.parent._get(key);
+        }
+
+        return _registration2.registerResolver(this, key, key).get(this, key);
       }
 
       return resolver.get(this, key);
@@ -694,7 +714,7 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
 
   function autoinject(potentialTarget) {
     var deco = function deco(target) {
-      var previousInject = target.inject;
+      var previousInject = target.inject ? target.inject.slice() : null;
       var autoInject = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, target) || _emptyParameters;
       if (!previousInject) {
         target.inject = autoInject;
@@ -704,12 +724,13 @@ define(['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aurel
             var prevIndex = previousInject.indexOf(autoInject[i]);
             if (prevIndex > -1) {
               previousInject.splice(prevIndex, 1);
-              previousInject.splice(prevIndex > -1 && prevIndex < i ? i - 1 : i, 0, autoInject[i]);
-            } else if (!previousInject[i]) {
-              previousInject[i] = autoInject[i];
             }
+            previousInject.splice(prevIndex > -1 && prevIndex < i ? i - 1 : i, 0, autoInject[i]);
+          } else if (!previousInject[i]) {
+            previousInject[i] = autoInject[i];
           }
         }
+        target.inject = previousInject;
       }
     };
 
